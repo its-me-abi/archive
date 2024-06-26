@@ -199,16 +199,16 @@ def is_takeover_possible (domain):
 
 
 def check_domains_from_file(input='domains.txt' ,out = 'result.txt' ,failed = 'result_failed.txt'):
-    with open(input, 'r') as file:
-       for line in file:
+    with open(input, 'r') as infile:
+       for line in infile:
            print ("\n# checking following line",line)
            result = is_takeover_possible(line.strip())
            if result:
-               with open(out, 'a+') as out:
-                   out.write ( str(result))
+               with open(out, 'a+') as outfile:
+                   outfile.write ( str(result))
            else:
-               with open(failed, 'a+') as out:
-                   out.write ( line)
+               with open(failed, 'a+') as failed:
+                   failed.write ( line)
 
 def ask_by_cli():
     domain = input("enter a domain name to check dns takeover possible or not >")
