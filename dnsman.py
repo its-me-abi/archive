@@ -218,7 +218,7 @@ def ask_by_cli():
 if __name__ == "__main__":
 
     import argparse
-    parser = argparse.ArgumentParser(description=" it can check is possibility of dns takeover. you can give domain name as input")
+    parser = argparse.ArgumentParser(description=" it can check possibility of dns takeover. you can give domain name as input")
     parser.add_argument("-d", "--domain", help = "which domain you want to check like google.com")
     parser.add_argument("-in", "--input", help = "path to domain.txt contains a domain list ")
     parser.add_argument("-out", "--output", help="to which file it should write successfull takeover details")
@@ -234,9 +234,9 @@ if __name__ == "__main__":
             possible = ask_by_cli()
 
     if  possible:
-        print ("\n############   YES. takeover  possible  ############")
+        print ("############   YES. DNS takeover  possible  ############")
         for servers in possible:
             print ("[+] ",servers)
     else:
-        print ("\n############ NO. takeover  impossible ############")
+        print ("############ NO. DNS takeover  impossible ############")
 
