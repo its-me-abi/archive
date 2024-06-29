@@ -146,7 +146,7 @@ def get_vulnerable_nameservers(domain = []):
     return vulnerable_servers
 
 
-def is_nameserver_returns_notfound_or_serverfail(domain,nameserver):
+def is_nameserver_returns_refused_or_serverfail(domain,nameserver):
     try:
         resolver = dns.resolver.Resolver()
         nameserver_ip = get_first_ip_of_nameserver(nameserver)
@@ -184,7 +184,7 @@ def is_takeover_possible (domain):
             takeover_possibel_nameservers = []
 
             for one_server in  all_vulnerable_nameservers :
-                is_it_vulnerable = is_nameserver_returns_notfound_or_serverfail(domain ,one_server)
+                is_it_vulnerable = is_nameserver_returns_refused_or_serverfail(domain ,one_server)
                 if is_it_vulnerable:
                     print (f" ### found a vulnerable nameserver {one_server}")
                     takeover_possibel_nameservers.append( one_server )
