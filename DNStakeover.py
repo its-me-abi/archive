@@ -100,6 +100,8 @@ def get_all_ip_of_nameserver(nameserver):
         print(f"Domain {nameserver} does not exist")
     except dns.exception.DNSException as e:
         print(f"DNS lookup failed: {e}")
+    finally:
+        return []
 
 
 def get_first_ip_of_nameserver(nameserver):
