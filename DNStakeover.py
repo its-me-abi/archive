@@ -80,17 +80,14 @@ vulnerable_dns_services = [
 
 def get_all_ip_of_nameserver(nameserver):
     "returns  all ips of nameserver from A record"
+    all_ips = []
     try:
-
-        all_ips = []
         a_records = dns.resolver.resolve(nameserver, 'A')
-
         if a_records:
             for ip in a_records:
                 ip_text = ip.to_text()
                 print(f"\n ip address found for nameserver {nameserver} is {ip_text} ")
                 all_ips.append (ip_text)
-            return all_ips
         else:
            print(f"no ip  found in NS records for this nameserver {nameserver}")
 
@@ -101,7 +98,7 @@ def get_all_ip_of_nameserver(nameserver):
     except dns.exception.DNSException as e:
         print(f"DNS lookup failed: {e}")
     finally:
-        return []
+        return all_ips
 
 
 def get_first_ip_of_nameserver(nameserver):
