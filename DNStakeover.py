@@ -110,19 +110,14 @@ def get_first_ip_of_nameserver(nameserver):
 
 def get_all_nameservers_of_domain(domain):
     "query resolover for authorititaive ns records for a domain"
-
+    all_nameservers = []
     try:
         ns_records = dns.resolver.resolve(domain, 'NS')
-        all_nameservers = []
-
         if ns_records:
             print(f"ns records found for domain {domain}")
             for one_ns_records in ns_records:
                 print(f"   {one_ns_records.to_text()}")
                 all_nameservers.append(one_ns_records.to_text().rstrip("."))
-
-            return all_nameservers
-
         else:
            print(f"ns records not found for domain {domain}")
 
@@ -132,6 +127,8 @@ def get_all_nameservers_of_domain(domain):
         print(f"Domain {domain} does not exist")
     except dns.exception.DNSException as e:
         print(f"DNS lookup failed: {e}")
+    finally:
+        return all_nameservers
 
 
 def get_vulnerable_nameservers(domain = []):
