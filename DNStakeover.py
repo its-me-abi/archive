@@ -213,7 +213,7 @@ def ask_by_cli():
 
 
 def get_comandline_args():
-    parser = argparse.ArgumentParser(description=" it can check possibility of dns takeover. you can give domain name as input")
+    parser = argparse.ArgumentParser(description=" it can check possibility of dns takeover. input domain name and output is list of vulnerable nameservers")
     parser.add_argument("-d", "--domain", help = "which domain you want to check like google.com")
     parser.add_argument("-in", "--input", help = "path to domain.txt contains a domain list ")
     parser.add_argument("-out", "--output", help="to which file it should write successfull takeover details")
