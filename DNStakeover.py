@@ -7,7 +7,14 @@ except:
     print ("### error dnspython is not installed .try installing it . 'pip install dnspython' ###")
     sys.exit()
 
-#author : abilash /6/2024  part of swiftsafe internship
+
+"""
+# author : abilash /6/2024  part of swiftsafe internship
+# code is based on this article https://blog.projectdiscovery.io/guide-to-dns-takeovers/
+usage :
+    "python DNStakeover.py  -d easydns.com" 
+    "python DNStakeover.py  -in domains.txt -out result.txt"
+"""
 
 vulnerable_dns_services = [
 
