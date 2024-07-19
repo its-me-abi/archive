@@ -12,7 +12,10 @@ except:
 # author : abilash /6/2024  part of swiftsafe internship
 # code is based on this article https://blog.projectdiscovery.io/guide-to-dns-takeovers/
 usage :
+  to see results in comandline
     "python DNStakeover.py  -d easydns.com" 
+    
+  to give a domains list seperated by newline in a txt file 
     "python DNStakeover.py  -in domains.txt -out result.txt"
 """
 
