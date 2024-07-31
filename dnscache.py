@@ -17,7 +17,7 @@ def is_id_of_req_and_responce_equal(req,res):
     if req == res:
         return True
 
-def is_ttl_long(ttl ,threashold = 2 ):
+def is_ttl_long(ttl ,threashold = 24 ):
     minutes = ttl/60
     hour = minutes/60
     print(f" ttl in hours = {hour}")
