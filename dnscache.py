@@ -50,14 +50,15 @@ def is_normal_and_doh_iplist_different(domain):
     normalips , doh_ips = get_ips_from_doh_and_normal(domain)
     normalips_set = set(normalips)
     doh_ips_set = set(doh_ips)
-
+    result = []
     #normalips_set,doh_ips_set = set([ '185.26.182.103']),set(['185.26.182.10', '185.26.182.103']) # for debugging
 
     if not normalips_set.issubset(doh_ips_set) or not doh_ips_set.issubset(normalips_set):
         print("two ip's list compared and non matching item is found =",normalips_set - doh_ips_set , doh_ips_set - normalips_set )
-        return  list(normalips_set - doh_ips_set | doh_ips_set - normalips_set)
+        result = list(normalips_set - doh_ips_set | doh_ips_set - normalips_set)
     else:
         print("two items compared both are equal contents")
+    return result
 
 
 def is_ttl_long_and_it_is_spoofed(domain):
