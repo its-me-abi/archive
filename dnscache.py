@@ -5,8 +5,10 @@ import DoH as doh
 
 
 """
-this code is based on this research paper
+this module contains dnscache poision detection
+this code used one algorithm from this research paper (ttl based detection of spoofing)
     https://cvr.ac.in/ojs/index.php/cvracin/article/download/537/427
+another method used is cross checing using multiple dns servers ( dns over https is used for doing it) 
 
 """
 
