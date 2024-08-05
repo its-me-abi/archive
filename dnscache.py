@@ -1,6 +1,8 @@
 import dns.query
 import dns.message
 import dns.rdatatype
+import DoH as doh
+
 
 """
 this code is based on this research paper
@@ -24,7 +26,41 @@ def is_ttl_long(ttl ,threashold = 24 ):
     if hour > threashold:
         return True
 
-def is_it_spoofed(domain):
+def get_ips(domain):
+    ips = []
+    query, response = get_query_and_responce(domain)
+    if response.answer:
+        for rrset in response.answer:
+            for rdata in rrset:
+                ip = rdata.to_text()
+                ips.append(ip)
+    return ips
+
+def get_ips_from_doh_and_normal(domain):
+    "returns normal dns responce and dnsover http responce"
+    normal_ips = get_ips(domain)
+    doh_ips = doh.get_ips(domain)
+    print(f" normal ips = {normal_ips}")
+    print(f" doh ips = {doh_ips}")
+    return normal_ips,doh_ips
+
+def is_normal_and_doh_iplist_different(domain):
+    "normal dns responce and dnsover http responce willbe compared and if both ips list contain non common ip then it returns it"
+
+    normalips , doh_ips = get_ips_from_doh_and_normal(domain)
+    normalips_set = set(normalips)
+    doh_ips_set = set(doh_ips)
+
+    #normalips_set,doh_ips_set = set([ '185.26.182.103']),set(['185.26.182.10', '185.26.182.103']) # for debugging
+
+    if not normalips_set.issubset(doh_ips_set) or not doh_ips_set.issubset(normalips_set):
+        print("two ip's list compared and non matching item is found =",normalips_set - doh_ips_set , doh_ips_set - normalips_set )
+        return  list(normalips_set - doh_ips_set | doh_ips_set - normalips_set)
+    else:
+        print("two items compared both are equal contents")
+
+
+def is_ttl_long_and_it_is_spoofed(domain):
     spoofed_ips = []
     query,response = get_query_and_responce(domain)
     print(f"Request ID: {query.id} Response ID: {response.id}")
@@ -38,20 +74,45 @@ def is_it_spoofed(domain):
                     ttl = rrset.ttl
                     print(f"Record: {rdata}, TTL: {ttl}")
                     if is_ttl_long(ttl):
-                        print ("ttl is > one day so probably it is spoofing ")
-                        spoofed_ips.append(rdata.address)
+                        print (" ttl is > one day so probably it is spoofing ")
+                        spoofed_ips.append (rdata.address)
                     else:
-                        print("ttl is short < 24 hrs ")
+                        print(" ttl is short < 24 hrs ")
     else:
         print("No answer records found.")
     return spoofed_ips
 
+
+def is_dns_query_spoofed(domain):
+    ips_list = []
+    ttl_long_found = is_ttl_long_and_it_is_spoofed(domain)
+    responce_difference_found =  is_normal_and_doh_iplist_different(domain)
+
+    if ttl_long_found or responce_difference_found :
+        ips_list = ttl_long_found + responce_difference_found
+    return ips_list
+
+def get_comandline_args():
+    parser = argparse.ArgumentParser(description=" to check cachepoision input domain name ")
+    parser.add_argument("-d", "--domain", help = "which domain you want to check. like google.com")
+    args = parser.parse_args()
+    return args
+
+
 if __name__ == "__main__":
-    domain = input("enter a domain name >") or "cloudns.net"
-    result = is_it_spoofed(domain)
-    if result :
-        print("this domain is spoofed. below is spoofed ip list ")
+    import argparse
+    args = get_comandline_args()
+    args.domain = "opera.com"
+    if args.domain:
+         domain = args.domain
+    else:
+        domain = input("enter a domain name >")
+
+    result = is_dns_query_spoofed(domain)
+    if result:
+        print("\n### this domain is probably spoofed. below is spoofed ip list ###")
         for ip in result:
             print(" [+] ",ip)
+
     else:
-        print("spoofing not detected ")
+        print("\n### spoofing not detected ###")
