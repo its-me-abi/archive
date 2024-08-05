@@ -2,7 +2,7 @@
 import requests
 from urllib.parse import urlencode
 
-"dns over https client. this code uses free unauthonticated public doh server to resolve dns query"
+"dns over https client. this code uses free unauthenticated public doh server to resolve dns query"
 
 def build_doh_url(domain, record_type, doh_server):
     query_params = {
@@ -41,8 +41,8 @@ def get_ip_list(json_responce):
     for one_server in json_responce:
         try:
             ips.append(one_server["data"])
-        except TypeError as e:
-            print("doh json responce contain no data field .because this queried domain may not exists ,",e)
+        except e:
+            print("doh json responce contain no data field . this domain may not exists ,",e)
     return  ips
 
 def get_ips(domain):
@@ -52,13 +52,13 @@ def get_ips(domain):
     for one_server in json_data:
         try:
                ips.append(one_server["data"])
-        except TypeError:
-            print("doh json responce contain no data field .because this queried domain may not exists")
+        except :
+            print("doh json responce contain no data field .because this  domain may not exists")
 
     return  ips
 
 if __name__ == "__main__":
-    domain = 'opera.com'
+    domain = 'localhost'
     answers = resolve_dns_over_https(domain)
     ips = get_ip_list(answers)
     if ips:
@@ -66,4 +66,4 @@ if __name__ == "__main__":
             print ("# A record reading success")
             print("domain = ",domain," ip = ",ip)
     else:
-        print(" no ips found")
+        print("no ips found")
