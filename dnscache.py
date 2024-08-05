@@ -103,7 +103,7 @@ def get_comandline_args():
 if __name__ == "__main__":
     import argparse
     args = get_comandline_args()
-    args.domain = "opera.com"
+
     if args.domain:
          domain = args.domain
     else:
