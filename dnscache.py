@@ -5,8 +5,8 @@ import DoH as doh
 
 
 """
-this module contains dnscache poision detection
-this code used one algorithm from this research paper (ttl based detection of spoofing)
+this module contains dnscache poison detection
+this code used ttl based detection of spoofing from this research paper 
     https://cvr.ac.in/ojs/index.php/cvracin/article/download/537/427
 another method used is cross checing using multiple dns servers ( dns over https is used for doing it) 
 
@@ -59,7 +59,7 @@ def is_normal_and_doh_iplist_different(domain):
         print("two ip's list compared and non matching item is found =",normalips_set - doh_ips_set , doh_ips_set - normalips_set )
         result = list(normalips_set - doh_ips_set | doh_ips_set - normalips_set)
     else:
-        print("two items compared both are equal contents")
+        print("two items compared. both are equal contents")
     return result
 
 
