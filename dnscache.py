@@ -105,15 +105,14 @@ if __name__ == "__main__":
     args = get_comandline_args()
 
     if args.domain:
-         domain = args.domain
+        domain = args.domain
     else:
         domain = input("enter a domain name >")
 
     result = is_dns_query_spoofed(domain)
     if result:
-        print("\n### this domain is probably spoofed. below is spoofed ip list ###")
+        print("### this domain is probably spoofed. below is spoofed ip list ###")
         for ip in result:
             print(" [+] ",ip)
-
     else:
-        print("\n### spoofing not detected ###")
+        print("### spoofing not detected ###")
